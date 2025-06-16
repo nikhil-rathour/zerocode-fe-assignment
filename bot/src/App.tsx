@@ -1,14 +1,26 @@
-import { useState } from 'react'
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import ProtectedRoute from './routeprotection/ProtectedRoute';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-     <h1>Chat Bot</h1>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
