@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
+import { ChatBox } from '@/components/Chat/ChatBox';
 
 interface User {
   id: string;
@@ -49,15 +50,9 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 bg-black">
       <Navbar />
-      <div className="max-w-4xl mx-auto p-6">
-        <h1 className="text-3xl font-bold mb-6">Welcome to the Home Page</h1>
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <p className="mb-4">Hello, {user.name || user.email}!</p>
-          <p>You are now logged in and can access this protected page.</p>
-        </div>
-      </div>
+      <ChatBox/>
     </div>
   );
 }
