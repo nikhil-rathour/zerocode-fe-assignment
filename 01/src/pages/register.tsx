@@ -2,7 +2,7 @@ import AuthForm from '@/components/AuthForm';
 
 export default function RegisterPage() {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen">
       <AuthForm type="register" />
     </div>
   );
