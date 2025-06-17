@@ -13,7 +13,7 @@
     "prisma:seed": "prisma db seed"
   },
   "dependencies": {
-    "@react-three/drei": "^9.0.0",
+    "@react-three/drei": "^9.100.0",
     "@react-three/fiber": "^8.0.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie": "^0.6.0",
@@ -27,7 +27,8 @@
     "next": "^14.2.30",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "three": "^0.152.2"
+    "three": "^0.150.1",
+    "three-mesh-bvh": "^0.5.23"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
