@@ -1,8 +1,10 @@
+export const dynamic = 'force-dynamic'; 
+
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
 
-const secretKey = process.env.JWT_SECRET;
+const secretKey = process.env.JWT_SECRET!;
 const key = new TextEncoder().encode(secretKey);
 
 async function decrypt(input: string): Promise<any> {
@@ -12,13 +14,13 @@ async function decrypt(input: string): Promise<any> {
 
 export async function GET() {
   try {
-    const cookieStore = await cookies();
+    const cookieStore = cookies(); 
     const session = cookieStore.get('session')?.value;
-    
+
     if (!session) {
       return NextResponse.json({ user: null }, { status: 401 });
     }
-    
+
     const user = await decrypt(session);
     return NextResponse.json({ user }, { status: 200 });
   } catch (error) {
@@ -28,4 +30,4 @@ export async function GET() {
       { status: 500 }
     );
   }
-} 
+}
