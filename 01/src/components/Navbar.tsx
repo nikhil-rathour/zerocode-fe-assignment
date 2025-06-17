@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface User {
   id: string;
@@ -14,6 +14,7 @@ export default function Navbar() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     async function checkSession() {
@@ -43,6 +44,24 @@ export default function Navbar() {
     }
   };
 
+  // Function to check if a route is active
+  const isActiveRoute = (route: string): boolean => {
+    if (route === '/' && pathname === '/') return true;
+    if (route !== '/' && pathname && pathname.startsWith(route)) return true;
+    return false;
+  };
+
+  // Function to get navigation link classes
+  const getNavLinkClasses = (route: string): string => {
+    const baseClasses = "px-3 py-2 rounded-lg transition-all duration-300 relative";
+    
+    if (isActiveRoute(route)) {
+      return `${baseClasses} text-white bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30`;
+    }
+    
+    return `${baseClasses} text-gray-300 hover:text-white hover:bg-white/5`;
+  };
+
   return (
     <nav className="border-b border-white/10 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,16 +74,22 @@ export default function Navbar() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
               </div>
-              <span className="text-xl font-bold text-white group-hover:text-purple-300 transition-colors duration-300">MyApp</span>
+              <span className="text-xl font-bold text-white group-hover:text-purple-300 transition-colors duration-300">AI + JWT</span>
             </Link>
 
             {user && (
               <div className="hidden md:flex items-center space-x-6">
-                <Link href="/" className="text-gray-300 hover:text-white px-3 py-2 rounded-lg hover:bg-white/5 transition-all duration-300">
-                  Home
+                <Link href="/" className={getNavLinkClasses('/')}>
+                  <span className="relative z-10">About</span>
+                  {isActiveRoute('/') && (
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+                  )}
                 </Link>
-                <Link href="/home" className="text-gray-300 hover:text-white px-3 py-2 rounded-lg hover:bg-white/5 transition-all duration-300">
-                  Chatbot
+                <Link href="/home" className={getNavLinkClasses('/home')}>
+                  <span className="relative z-10">Chatbot</span>
+                  {isActiveRoute('/home') && (
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+                  )}
                 </Link>
               </div>
             )}
@@ -100,13 +125,21 @@ export default function Navbar() {
               <>
                 <Link
                   href="/login"
-                  className="text-gray-300 hover:text-white px-3 py-2 rounded-lg hover:bg-white/5 transition-all duration-300"
+                  className={`px-3 py-2 rounded-lg transition-all duration-300 ${
+                    isActiveRoute('/login') 
+                      ? 'text-white bg-white/10' 
+                      : 'text-gray-300 hover:text-white hover:bg-white/5'
+                  }`}
                 >
                   Login
                 </Link>
                 <Link
                   href="/register"
-                  className="text-white bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300"
+                  className={`px-4 py-2 rounded-lg transition-all duration-300 ${
+                    isActiveRoute('/register')
+                      ? 'text-white bg-gradient-to-r from-purple-600 to-pink-600'
+                      : 'text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600'
+                  }`}
                 >
                   Register
                 </Link>

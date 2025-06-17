@@ -55,13 +55,7 @@ export default function Home() {
                 >
                  Try our AI Chat
                 </Link>
-                {/* <Link
-                  href="/chatbot"
-                  className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 
-                           transition-all duration-300 shadow-lg border border-gray-700"
-                >
-                  Try our AI Chat
-                </Link> */}
+            
               </div>
             </div>
           ) : (
@@ -71,15 +65,9 @@ export default function Home() {
                 className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg 
                          hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg"
               >
-                Login
+                Let's Get Started
               </Link>
-              <Link
-                href="/register"
-                className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 
-                         transition-all duration-300 shadow-lg border border-gray-700"
-              >
-                Register
-              </Link>
+             
             </div>
           )}
         </div>
@@ -184,15 +172,9 @@ export default function Home() {
                          rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 
                          text-lg font-semibold shadow-xl"
               >
-                Join Now
+                Login to Chat
               </Link>
-              <Link
-                href="/login"
-                className="px-8 py-4 bg-gray-800 text-white rounded-lg hover:bg-gray-700 
-                         transition-all duration-300 text-lg font-semibold shadow-xl border border-gray-700"
-              >
-                Sign In
-              </Link>
+              
             </div>
           )}
         </div>
