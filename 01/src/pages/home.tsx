@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import { ChatBox } from '@/components/Chat/ChatBox';
+import Footer from '@/components/footer';
 
 
 interface User {
@@ -59,7 +60,7 @@ export default function HomePage() {
       </div>
       <Navbar />
       <ChatBox/>
-      
+      <Footer />
     </div>
   );
 }

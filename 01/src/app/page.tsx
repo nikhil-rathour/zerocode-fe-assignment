@@ -37,7 +37,7 @@ export default function Home() {
         {/* Hero Section */}
         <div className="text-center mb-20">
          <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600 mb-6">
-  AI Chatbot
+  AI ChatBot
 </h1>
 <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-10">
   Chat with our intelligent AI assistant powered by cutting-edge natural language processing. Built with Next.js, TypeScript, and secure authentication.
