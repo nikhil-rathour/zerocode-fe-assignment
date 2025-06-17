@@ -7,7 +7,6 @@ import { useState, useRef, Suspense, useEffect } from "react";
 import { Points as PointsType } from "three";
 import dynamic from "next/dynamic";
 
-
 const StarBackground = () => {
   const ref = useRef<PointsType | null>(null);
   const [sphere] = useState(() =>
@@ -49,14 +48,18 @@ const StarsCanvas = () => {
   }, []);
 
   if (!mounted) {
-    return null;
+    return (
+      <div className="w-full h-full fixed inset-0 -z-10 bg-black" />
+    );
   }
 
   return (
-    <div className="w-full h-auto fixed inset-0 -z-10">
+    <div className="w-full h-full fixed inset-0 -z-10">
       <Canvas style={{ background: "black" }}
         camera={{ position: [0, 0, 1] }}>
-        <Suspense fallback={null}>
+        <Suspense fallback={
+          <div className="w-full h-full bg-black" />
+        }>
           <StarBackground />
         </Suspense>
       </Canvas>

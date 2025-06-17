@@ -157,7 +157,7 @@ export default function Home() {
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Ready to Get Started?</h2>
           {user ? (
             <Link
-              href="/chatbot"
+              href="/home"
               className="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white 
                        rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 
                        text-lg font-semibold shadow-xl"
