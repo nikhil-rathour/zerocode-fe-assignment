@@ -279,7 +279,7 @@ export default function AuthForm({ type }: AuthFormProps) {
 
         {/* Footer */}
         <div className="text-center mt-8 text-gray-400 text-sm">
-          <p>Secure authentication powered by space-grade encryption 🚀</p>
+          <p>Secure authentication powered by JWT 🚀</p>
         </div>
       </div>
 
