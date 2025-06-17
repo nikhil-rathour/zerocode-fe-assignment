@@ -1,12 +1,15 @@
+// Change provider and URL
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
-}
-
+// Keep your existing models, like:
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
