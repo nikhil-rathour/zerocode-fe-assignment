@@ -2,6 +2,20 @@
 
 A modern real-time chat application built with Next.js, featuring authentication, real-time messaging, and a beautiful UI with animated backgrounds.
 
+# about page
+
+![Screenshot 2025-06-18 003435](https://github.com/user-attachments/assets/f0c66810-c4d9-4c79-a0ad-19652f332eb9)
+
+# Chat Section
+
+![Screenshot 2025-06-18 003518](https://github.com/user-attachments/assets/3c7b0f57-03e3-4891-8ae2-1130a09a978d)
+
+# Login / Register 
+
+<img width="948" alt="image" src="https://github.com/user-attachments/assets/96cb27e4-1b02-48dc-b62b-8b42e9b84f40" />
+
+
+
 ## 🚀 Features
 
 - 🔐 Secure Authentication System
@@ -15,14 +29,50 @@ A modern real-time chat application built with Next.js, featuring authentication
 ## 🏗️ Architecture
 
 ```
-src/
-├── app/                 # App router pages and layouts
-├── components/          # Reusable React components
-│   ├── Chat/           # Chat-related components
-│   └── Navbar/         # Navigation components
-├── lib/                # Utility functions and shared logic
-├── pages/              # Page components
-└── middleware.ts       # Authentication middleware
+01/
+├── .next/                      # Next.js build output
+├── node_modules/               # Dependencies
+├── prisma/                     # Database configuration
+│   ├── migrations/            # Database migrations
+│   ├── schema.prisma          # Prisma schema
+│   ├── seed.ts               # Database seed file
+│   └── dev.db                # Development database
+├── public/                     # Static files
+├── src/
+│   ├── app/                   # App router pages
+│   │   ├── api/              # API routes
+│   │   ├── about/            # About page
+│   │   ├── chatbot/          # Chatbot page
+│   │   ├── globals.css       # Global styles
+│   │   ├── layout.tsx        # Root layout
+│   │   ├── page.tsx          # Home page
+│   │   └── page.module.css   # Page styles
+│   ├── components/            # React components
+│   │   ├── Chat/             # Chat components
+│   │   │   ├── ChatBox.tsx   # Main chat component
+│   │   │   └── Message.tsx   # Message component
+│   │   ├── AuthForm.tsx      # Authentication form
+│   │   ├── Navbar.tsx        # Navigation bar
+│   │   ├── StarsCanvas.tsx   # Background animation
+│   │   └── LogoutButton.tsx  # Logout button
+│   ├── lib/                   # Utility functions
+│   ├── pages/                 # Pages directory
+│   │   ├── _app.tsx          # App wrapper
+│   │   ├── home.tsx          # Home page
+│   │   ├── login.tsx         # Login page
+│   │   └── register.tsx      # Registration page
+│   └── middleware.ts          # Authentication middleware
+├── .gitignore                 # Git ignore file
+├── eslint.config.mjs          # ESLint configuration
+├── next-env.d.ts             # Next.js TypeScript declarations
+├── next.config.js            # Next.js configuration
+├── next.config.ts            # Next.js TypeScript configuration
+├── package.json              # Project dependencies and scripts
+├── package-lock.json         # Dependency lock file
+├── postcss.config.js         # PostCSS configuration
+├── README.md                 # Project documentation
+├── tailwind.config.js        # Tailwind CSS configuration
+└── tsconfig.json             # TypeScript configuration
 ```
 
 ## 🛠️ Tech Stack
