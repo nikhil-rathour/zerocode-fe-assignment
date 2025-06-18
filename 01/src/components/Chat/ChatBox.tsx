@@ -21,6 +21,12 @@ export const ChatBox = () => {
   const recognitionRef = useRef<any>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
   const [isListening, setIsListening] = useState(false);
+  
+  // Text-to-Speech states
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [currentSpeakingIndex, setCurrentSpeakingIndex] = useState<number | null>(null);
+  const [highlightedText, setHighlightedText] = useState<string>('');
+  const speechUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   // Fetch user data on component mount
   useEffect(() => {
@@ -44,6 +50,10 @@ export const ChatBox = () => {
       if (typingInterval) clearInterval(typingInterval);
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
+      }
+      // Stop any ongoing speech
+      if (speechUtteranceRef.current) {
+        speechSynthesis.cancel();
       }
     };
   }, [typingInterval]);
@@ -71,6 +81,81 @@ export const ChatBox = () => {
     }
     setIsTyping(false);
     setIsLoading(false);
+  };
+
+  // Text-to-Speech functionality
+  const speakText = (text: string, messageIndex: number) => {
+    // Stop any current speech
+    if (isSpeaking) {
+      speechSynthesis.cancel();
+      setIsSpeaking(false);
+      setCurrentSpeakingIndex(null);
+      setHighlightedText('');
+      return;
+    }
+
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      speechUtteranceRef.current = utterance;
+      
+      // Set voice properties
+      utterance.rate = 0.9;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+      
+      // Try to use a more natural voice
+      const voices = speechSynthesis.getVoices();
+      const preferredVoice = voices.find(voice => 
+        voice.name.includes('Natural') || 
+        voice.name.includes('Enhanced') ||
+        voice.name.includes('Premium') ||
+        voice.lang === 'en-US'
+      );
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+
+      setIsSpeaking(true);
+      setCurrentSpeakingIndex(messageIndex);
+
+      // Handle boundary events for word highlighting
+      utterance.onboundary = (event) => {
+        if (event.name === 'word') {
+          const spokenText = text.substring(0, event.charIndex + event.charLength);
+          setHighlightedText(spokenText);
+        }
+      };
+
+      utterance.onend = () => {
+        setIsSpeaking(false);
+        setCurrentSpeakingIndex(null);
+        setHighlightedText('');
+        speechUtteranceRef.current = null;
+      };
+
+      utterance.onerror = (event) => {
+        console.error('Speech synthesis error:', event);
+        setIsSpeaking(false);
+        setCurrentSpeakingIndex(null);
+        setHighlightedText('');
+        speechUtteranceRef.current = null;
+      };
+
+      speechSynthesis.speak(utterance);
+    } else {
+      alert('Text-to-speech is not supported in your browser.');
+    }
+  };
+
+  // Stop all speech
+  const stopSpeaking = () => {
+    if (speechSynthesis.speaking) {
+      speechSynthesis.cancel();
+    }
+    setIsSpeaking(false);
+    setCurrentSpeakingIndex(null);
+    setHighlightedText('');
+    speechUtteranceRef.current = null;
   };
 
   const handleSend = async () => {
@@ -151,6 +236,16 @@ export const ChatBox = () => {
         setIsListening(false);
       };
     }
+
+    // Load voices when they become available
+    const loadVoices = () => {
+      speechSynthesis.getVoices();
+    };
+    
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    loadVoices();
   }, []);
 
   // Voice input handler
@@ -192,22 +287,40 @@ export const ChatBox = () => {
   // Clear chat messages
   const clearChat = () => {
     setMessages([]);
+    stopSpeaking(); // Stop any ongoing speech when clearing chat
   };
 
-  // Format long text with proper line breaks
-  const formatMessage = (text: string) => {
+  // Format long text with proper line breaks and highlighting
+  const formatMessage = (text: string, messageIndex?: number) => {
+    const isCurrentlySpeaking = currentSpeakingIndex === messageIndex;
+    
     return text.split('\n').map((paragraph, i) => (
       <p key={i} className="mb-2 last:mb-0">
-        {paragraph || <br />}
+        {paragraph ? (
+          isCurrentlySpeaking ? (
+            <span>
+              <span className="bg-yellow-300 text-black rounded px-1">
+                {highlightedText.split('\n')[i] || ''}
+              </span>
+              <span>
+                {paragraph.substring((highlightedText.split('\n')[i] || '').length)}
+              </span>
+            </span>
+          ) : (
+            paragraph
+          )
+        ) : (
+          <br />
+        )}
       </p>
     ));
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto p-4 h-screen max-h-screen flex flex-col mt-28  ">
+    <div className="w-full max-w-5xl mx-auto p-4 h-screen max-h-screen flex flex-col mt-28">
       {/* Header */}
       <div className="mb-4 text-center">
-        <h1  className="text-2xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600 mb-6">AI Chat Assistant</h1>
+        <h1 className="text-2xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600 mb-6">AI Chat Assistant</h1>
         <p className="text-gray-300 text-sm md:text-base">
           {userName ? `Hello, ${userName}. How can I assist you today?` : 'How can I assist you today?'}
         </p>
@@ -257,13 +370,35 @@ export const ChatBox = () => {
                         {msg.from === 'user' ? userName.charAt(0).toUpperCase() : 'AI'}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className={`text-xs font-medium mb-1 ${
-                          msg.from === 'user' ? 'text-purple-200' : 'text-gray-400'
-                        }`}>
-                          {msg.from === 'user' ? userName : 'AI Assistant'}
+                        <div className={`flex items-center justify-between mb-1`}>
+                          <div className={`text-xs font-medium ${
+                            msg.from === 'user' ? 'text-purple-200' : 'text-gray-400'
+                          }`}>
+                            {msg.from === 'user' ? userName : 'AI Assistant'}
+                          </div>
+                          {/* Speaker Icon - Only show for AI messages */}
+                          {msg.from === 'bot' && (
+                            <button
+                              onClick={() => speakText(msg.text, i)}
+                              className={`ml-2 p-1 rounded hover:bg-gray-600 transition-colors ${
+                                currentSpeakingIndex === i ? 'text-green-400' : 'text-gray-400 hover:text-white'
+                              }`}
+                              title={currentSpeakingIndex === i ? 'Stop speaking' : 'Read aloud'}
+                            >
+                              {currentSpeakingIndex === i ? (
+                                <svg className="w-4 h-4 animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                                </svg>
+                              ) : (
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5 12H3l4-4v8l-4-4h2z" />
+                                </svg>
+                              )}
+                            </button>
+                          )}
                         </div>
                         <div className="text-sm leading-relaxed break-words whitespace-pre-wrap">
-                          {formatMessage(msg.text)}
+                          {formatMessage(msg.text, i)}
                         </div>
                       </div>
                     </div>
@@ -279,19 +414,36 @@ export const ChatBox = () => {
                         AI
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="text-xs font-medium mb-1 text-gray-400">
-                          AI Assistant
+                        <div className="flex items-center justify-between mb-1">
+                          <div className="text-xs font-medium text-gray-400">
+                            AI Assistant
+                          </div>
+                          {/* Speaker Icon for typing message */}
+                          <button
+                            onClick={() => speakText(botResponse, -1)}
+                            disabled={!botResponse.trim()}
+                            className={`ml-2 p-1 rounded hover:bg-gray-600 transition-colors ${
+                              !botResponse.trim() ? 'text-gray-600 cursor-not-allowed' : 'text-gray-400 hover:text-white'
+                            }`}
+                            title="Read current response aloud"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5 12H3l4-4v8l-4-4h2z" />
+                            </svg>
+                          </button>
                         </div>
                         <div className="text-white text-sm leading-relaxed break-words whitespace-pre-wrap">
-                          {formatMessage(botResponse)}
+                          {formatMessage(botResponse, -1)}
                           <span className="inline-block w-2 h-4 bg-white ml-1 animate-pulse"></span>
                         </div>
-                        <button
-                          onClick={stopTyping}
-                          className="mt-2 px-2 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
-                        >
-                          Stop Generating
-                        </button>
+                        <div className="flex space-x-2 mt-2">
+                          <button
+                            onClick={stopTyping}
+                            className="px-2 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+                          >
+                            Stop Generating
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -396,6 +548,19 @@ export const ChatBox = () => {
                   <span>{isListening ? 'Stop' : 'Voice'}</span>
                 </button>
 
+                {/* Stop Speaking Button */}
+                {isSpeaking && (
+                  <button
+                    onClick={stopSpeaking}
+                    className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all duration-200 text-sm flex items-center space-x-1"
+                  >
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                    </svg>
+                    <span>Stop Speaking</span>
+                  </button>
+                )}
+
                 <button
                   onClick={exportChat}
                   disabled={messages.length === 0}
@@ -423,6 +588,7 @@ export const ChatBox = () => {
 
               <div className="text-xs text-gray-500">
                 {messages.length} message{messages.length !== 1 ? 's' : ''}
+                {isSpeaking && <span className="ml-2 text-green-400">• Speaking</span>}
               </div>
             </div>
           </div>
