@@ -80,26 +80,26 @@ export default function Navbar() {
   }, [mobileMenuOpen]);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-40 border-b border-white/10 backdrop-blur-xl bg-black/10 rounded-b-3xl shadow-lg shadow-black/20">
+    <nav className="fixed top-0 left-0 right-0 z-40 border-b border-white/10 backdrop-blur-xl bg-black/10 rounded-b-3xl shadow-lg shadow-black/20 transition-all duration-500 ease-in-out">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Left side - Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center group">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-2 group-hover:from-purple-600 group-hover:to-pink-600 transition-all duration-300">
+            <Link href="/" className="flex items-center group transition-all duration-500 ease-in-out">
+              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-2 group-hover:from-purple-600 group-hover:to-pink-600 transition-all duration-500 ease-in-out">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
               </div>
-              <span className="text-xl font-bold text-white group-hover:text-purple-300 transition-colors duration-300">AI + JWT</span>
+              <span className="text-xl font-bold text-white group-hover:text-purple-300 transition-all duration-500 ease-in-out">AI + JWT</span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           {user && (
-            <div className="hidden md:flex items-center space-x-6">
+            <div className="hidden md:flex items-center space-x-6 transition-all duration-500 ease-in-out">
               <Link href="/" className={getNavLinkClasses('/')}>
-                <span className="relative z-10">About</span>
+                <span className="relative z-10">Dashboard</span>
                 {isActiveRoute('/') && (
                   <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
                 )}
@@ -114,7 +114,7 @@ export default function Navbar() {
           )}
 
           {/* Right side - User/Auth controls */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 transition-all duration-500 ease-in-out">
             {loading ? (
               <div className="flex items-center">
                 <div className="w-8 h-8 rounded-full bg-white/5 animate-pulse"></div>
@@ -122,7 +122,7 @@ export default function Navbar() {
             ) : user ? (
               <>
                 {/* Desktop User Info */}
-                <div className="hidden sm:flex items-center space-x-2">
+                <div className="hidden sm:flex items-center space-x-2 transition-all duration-500 ease-in-out">
                   <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white font-medium">
                     {user.name?.charAt(0) || user.email.charAt(0)}
                   </div>
@@ -134,7 +134,7 @@ export default function Navbar() {
                 {/* Desktop Logout Button */}
                 <button
                   onClick={handleLogout}
-                  className="hidden sm:flex text-gray-300 hover:text-white px-3 py-2 rounded-lg hover:bg-white/5 transition-all duration-300 items-center space-x-1"
+                  className="hidden sm:flex text-gray-300 hover:text-white px-3 py-2 rounded-lg hover:bg-white/5 transition-all duration-500 ease-in-out items-center space-x-1"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -148,7 +148,7 @@ export default function Navbar() {
                     e.stopPropagation();
                     setMobileMenuOpen(!mobileMenuOpen);
                   }}
-                  className="sm:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-300"
+                  className="sm:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-500 ease-in-out"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     {mobileMenuOpen ? (
@@ -191,7 +191,7 @@ export default function Navbar() {
                     e.stopPropagation();
                     setMobileMenuOpen(!mobileMenuOpen);
                   }}
-                  className="sm:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-300"
+                  className="sm:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-500 ease-in-out"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     {mobileMenuOpen ? (
@@ -208,7 +208,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="sm:hidden border-t border-white/10 bg-black/20 backdrop-blur-xl rounded-b-3xl shadow-lg shadow-black/20">
+          <div className="sm:hidden border-t border-white/10 bg-black/20 backdrop-blur-xl rounded-b-3xl shadow-lg shadow-black/20 transition-all duration-500 ease-in-out">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {user ? (
                 <>
@@ -241,7 +241,7 @@ export default function Navbar() {
                   {/* Mobile Logout Button */}
                   <button
                     onClick={handleLogout}
-                    className="flex items-center space-x-2 w-full text-left px-3 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-300"
+                    className="flex items-center space-x-2 w-full text-left px-3 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-500 ease-in-out"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
