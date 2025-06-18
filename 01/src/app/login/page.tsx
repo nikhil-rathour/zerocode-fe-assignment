@@ -1,3 +1,5 @@
+'use client'
+
 import AuthForm from '@/components/AuthForm';
 import Link from 'next/link';
 

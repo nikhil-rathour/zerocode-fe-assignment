@@ -23,6 +23,7 @@ export default function Navbar() {
         const response = await fetch('/api/auth/session');
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           setUser(data.user);
         }
       } catch (error) {
@@ -101,12 +102,12 @@ export default function Navbar() {
               <Link href="/" className={getNavLinkClasses('/')}>
                 <span className="relative z-10">Dashboard</span>
                 {isActiveRoute('/') && (
-                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full "></div>
                 )}
               </Link>
-              <Link href="/home" className={getNavLinkClasses('/home')}>
+              <Link href="/chat" className={getNavLinkClasses('/chat')}>
                 <span className="relative z-10">Chatbot</span>
-                {isActiveRoute('/home') && (
+                {isActiveRoute('/chat') && (
                   <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
                 )}
               </Link>
@@ -231,8 +232,8 @@ export default function Navbar() {
                     About
                   </Link>
                   <Link 
-                    href="/home" 
-                    className={`block ${getNavLinkClasses('/home')} w-full text-left`}
+                    href="/chat" 
+                    className={`block ${getNavLinkClasses('/chat')} w-full text-left`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Chatbot

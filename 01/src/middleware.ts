@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Protected routes
-  const protectedRoutes = ['/home' ];
+  const protectedRoutes = ['/chat' ];
   const isProtected = protectedRoutes.some(route => pathname.startsWith(route));
 
   // Auth routes
@@ -39,7 +39,7 @@ export async function middleware(request: NextRequest) {
   if (isAuthRoute && session) {
     const payload = await verifySession(session);
     if (payload) {
-      return NextResponse.redirect(new URL('/home', request.url));
+      return NextResponse.redirect(new URL('/chat', request.url));
     }
   }
 

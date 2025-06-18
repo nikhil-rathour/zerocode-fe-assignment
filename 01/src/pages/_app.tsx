@@ -1,5 +1,4 @@
 import '@/app/globals.css';
-import StarsCanvas from '@/components/StarsCanvas';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
@@ -39,7 +38,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <StarsCanvas />
       {loading && <LoadingScreen />}
       <div className={`transition-all duration-500 ${loading ? 'opacity-0' : 'opacity-100'}`}>
         <Component {...pageProps} />

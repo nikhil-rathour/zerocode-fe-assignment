@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useRef, useEffect } from 'react';
 import { askGemini } from '@/app/api/chat/chatAPI';
 
@@ -8,7 +10,7 @@ declare global {
   }
 }
 
-export const ChatBox = () => {
+export default function ChatBox(){
   const [messages, setMessages] = useState<{ from: string; text: string }[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
