@@ -231,7 +231,7 @@ export default function Navbar() {
                     className={`block ${getNavLinkClasses('/')} w-full text-left`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    About
+                    Dashboard
                   </Link>
                   <Link 
                     href="/chat" 
