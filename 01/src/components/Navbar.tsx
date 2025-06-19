@@ -17,24 +17,25 @@ export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
-    async function checkSession() {
-      try {
-        const response = await fetch('/api/auth/session');
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          setUser(data.user);
-        }
-      } catch (error) {
-        console.error('Session error:', error);
-      } finally {
-        setLoading(false);
+  const checkSession = async () => {
+    try {
+      const response = await fetch('/api/auth/session');
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data.user);
+      } else {
+        setUser(null);
       }
+    } catch (error) {
+      setUser(null);
+    } finally {
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     checkSession();
-  }, []);
+  }, [pathname]);
 
   const handleLogout = async () => {
     try {
