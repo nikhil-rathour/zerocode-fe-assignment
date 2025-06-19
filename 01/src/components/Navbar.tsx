@@ -43,6 +43,7 @@ export default function Navbar() {
       setUser(null);
       setMobileMenuOpen(false);
       router.push('/login');
+      window.location.reload();
     } catch (error) {
       console.error('Logout error:', error);
     }
