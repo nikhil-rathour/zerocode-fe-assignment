@@ -65,7 +65,7 @@ export default function Home() {
                 className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg 
                          hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg"
               >
-                Let's Get Started
+               Let's Chat
               </Link>
              
             </div>
@@ -172,7 +172,7 @@ export default function Home() {
                          rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 
                          text-lg font-semibold shadow-xl"
               >
-                Login to Chat
+                 Let's Get Started
               </Link>
               
             </div>
