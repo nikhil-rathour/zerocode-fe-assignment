@@ -29,50 +29,64 @@ A modern real-time chat application built with Next.js, featuring authentication
 ## 🏗️ Architecture
 
 ```
-01/
-├── .next/                      # Next.js build output
-├── node_modules/               # Dependencies
-├── prisma/                     # Database configuration
-│   ├── migrations/            # Database migrations
-│   ├── schema.prisma          # Prisma schema
-│   ├── seed.ts               # Database seed file
-│   └── dev.db                # Development database
-├── public/                     # Static files
-├── src/
-│   ├── app/                   # App router pages
-│   │   ├── api/              # API routes
-│   │   ├── about/            # About page
-│   │   ├── chatbot/          # Chatbot page
-│   │   ├── globals.css       # Global styles
-│   │   ├── layout.tsx        # Root layout
-│   │   ├── page.tsx          # Home page
-│   │   └── page.module.css   # Page styles
-│   ├── components/            # React components
-│   │   ├── Chat/             # Chat components
-│   │   │   ├── ChatBox.tsx   # Main chat component
-│   │   │   └── Message.tsx   # Message component
-│   │   ├── AuthForm.tsx      # Authentication form
-│   │   ├── Navbar.tsx        # Navigation bar
-│   │   ├── StarsCanvas.tsx   # Background animation
-│   │   └── LogoutButton.tsx  # Logout button
-│   ├── lib/                   # Utility functions
-│   ├── pages/                 # Pages directory
-│   │   ├── _app.tsx          # App wrapper
-│   │   ├── home.tsx          # Home page
-│   │   ├── login.tsx         # Login page
-│   │   └── register.tsx      # Registration page
-│   └── middleware.ts          # Authentication middleware
-├── .gitignore                 # Git ignore file
-├── eslint.config.mjs          # ESLint configuration
-├── next-env.d.ts             # Next.js TypeScript declarations
-├── next.config.js            # Next.js configuration
-├── next.config.ts            # Next.js TypeScript configuration
-├── package.json              # Project dependencies and scripts
-├── package-lock.json         # Dependency lock file
-├── postcss.config.js         # PostCSS configuration
-├── README.md                 # Project documentation
-├── tailwind.config.js        # Tailwind CSS configuration
-└── tsconfig.json             # TypeScript configuration
+zerocode-fe-assignment/
+└── 01/
+    ├── .next/                # Next.js build output (not fully listed)
+    ├── node_modules/         # Node.js dependencies (not fully listed)
+    ├── public/               # Static assets (SVGs, etc.)
+    ├── prisma/               # Prisma database files and migrations
+    │   ├── dev.db
+    │   ├── schema.prisma
+    │   ├── seed.ts
+    │   └── migrations/
+    │       ├── 20250616211758_init/
+    │       │   └── migration.sql
+    │       └── migration_lock.toml
+    ├── src/
+    │   ├── app/
+    │   │   ├── api/
+    │   │   │   ├── auth/
+    │   │   │   │   ├── login/route.ts
+    │   │   │   │   ├── logout/route.ts
+    │   │   │   │   ├── register/route.ts
+    │   │   │   │   └── session/route.ts
+    │   │   │   └── chat/chatAPI.ts
+    │   │   ├── chat/page.tsx
+    │   │   ├── login/page.tsx
+    │   │   ├── register/page.tsx
+    │   │   ├── favicon.ico
+    │   │   ├── globals.css
+    │   │   ├── layout.tsx
+    │   │   ├── page.module.css
+    │   │   └── page.tsx
+    │   ├── components/
+    │   │   ├── AuthForm.tsx
+    │   │   ├── Chat/Message.tsx
+    │   │   ├── footer.tsx
+    │   │   ├── LoadingScreen.tsx
+    │   │   ├── LogoutButton.tsx
+    │   │   ├── Navbar.tsx
+    │   │   └── StarsCanvas.tsx
+    │   ├── lib/
+    │   │   ├── auth.ts
+    │   │   ├── db.ts
+    │   │   ├── server-auth.ts
+    │   │   └── types.ts
+    │   ├── middleware.ts
+    │   └── pages/
+    │       └── _app.tsx
+    ├── .gitignore
+    ├── eslint.config.mjs
+    ├── next-env.d.ts
+    ├── next.config.js
+    ├── next.config.ts
+    ├── package.json
+    ├── package-lock.json
+    ├── postcss.config.js
+    ├── README.md
+    ├── tailwind.config.js
+    └── tsconfig.json
+└── README.md
 ```
 
 ## 🛠️ Tech Stack
